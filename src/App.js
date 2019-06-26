@@ -1,26 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Loadable from 'react-loadable';
+import './App.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
+
+// Containers
+const DefaultLayout = Loadable({
+  loader: () => import('./components/defaultLayout/DefaultLayout'),
+  loading
+});
+
+// Pages
+const Login = Loadable({
+  loader: () => import('./components/auth/Login'),
+  loading
+});
+
+const Register = Loadable({
+  loader: () => import('./components/auth/Register'),
+  loading
+});
+
+
+class App extends Component {
+  render() {
+    if(this.props.auth.uid){
+      return (
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/login" name="Login Page" component={Login} />
+              <Route exact path="/register" name="Register Page" component={Register} />
+              <Route path="/" name="Home" component={DefaultLayout} />
+              {/*<Route component={Notfound} />*/}
+            </Switch>
+          </BrowserRouter>
+      );
+    }else {
+      return (
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" name="Login Page" component={Login} />
+              <Route exact path="/register" name="Register Page" component={Register} />
+              <Redirect to='/' />
+            </Switch>
+          </BrowserRouter>
+      );
+    }
+  }
 }
 
-export default App;
+
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth
+  }
+}
+
+export default connect(mapStateToProps)(App);
