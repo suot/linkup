@@ -11,10 +11,11 @@ import { reduxFirestore, getFirestore } from 'redux-firestore';
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import fbConfig from './components/auth/config/fbConfig';
 import HttpService from './services/HttpService'
+import {urls} from './urls'
 
 const store = createStore(rootReducer,
     compose(
-        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore, HttpService })),
+        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore, HttpService, urls })),
         reduxFirestore(fbConfig),
         reactReduxFirebase(fbConfig, {useFirestoreForProfile: true, userProfile: 'users', attachAuthIsReady: true})
     )
