@@ -1,34 +1,23 @@
 export const HttpService = {
   
-  post: function(url, data) {
+  post: (url, data) => 
     fetch(url, {
       method: "POST",
-      mode: "no-cors", //should be resolved - security issue
-      body: data 
-      }
-    );
-  },
+      body: data }),
 
-  get: function(url) {
+  get: (url) => 
     fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-        }
-      }
-    );
-  },
+      method: "GET",})
+    .then(promise => promise.json()),
 
-  put: function(url, data) {
+  put: (url, data) => 
     fetch(url, {
       method: "PUT",
       data: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json"
-        }
       }
-    );
-  },
+    }),
   
   patch: function(url) {}
 
