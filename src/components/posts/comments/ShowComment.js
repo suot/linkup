@@ -10,7 +10,7 @@ class ShowComment extends Component{
   render(){
     return(
       <div>
-        I am Show Comment
+        {this.props.comment.text}
       </div>
       );
   }
