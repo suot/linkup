@@ -10,7 +10,7 @@ class CreatePost extends Component{
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.createPost(document.querySelector('form'));
+    this.props.createPost(e.target);
   }
 
   render(){
