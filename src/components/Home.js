@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { Card, CardBody, Col, Label, Row } from 'reactstrap';
+import ReactLoading from 'react-loading';
 
 import {ShowPost, CreatePost} from './packages/post'
 import UserInfo from './users/UserInfo'
@@ -19,6 +20,20 @@ class Home extends Component{
     this.props.updatePosts();
   }
 
+  displayPosts() {
+    var items = []
+    
+    if(this.props.posts === undefined || this.props.posts.length == 0 )
+      items.push(<ReactLoading type="bubbles" height="10%" width={'20%'}/>);
+    
+    else
+      for( const post of this.props.posts){
+        items.push( <ShowPost key={post.id} post={post} /> )
+      }   
+      return items;
+    
+  }
+
   render(){
     return(
       <div>
@@ -29,7 +44,7 @@ class Home extends Component{
           
           <Col sm="6">
             <CreatePost />
-            <ShowPost />
+            {this.displayPosts()}
           </Col>
 
           <Col sm="3">
