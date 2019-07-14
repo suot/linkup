@@ -3,11 +3,14 @@ export const HttpService = {
   post: (url, data) => 
     fetch(url, {
       method: "POST",
-      body: data }),
+      body: data 
+    })
+    .then( promise => promise.json()),
 
   get: (url) => 
     fetch(url, {
-      method: "GET",})
+      method: "GET"
+    })
     .then(promise => promise.json()),
 
   put: (url, data) => 

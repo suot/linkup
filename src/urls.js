@@ -12,10 +12,10 @@ export const urls = {
   },
 
   comments: function(postId) {
-    return this.api_url+"post/:postId/comments".replace(":postId", postId);
+    return this.api_url+"/posts/:postId/comments".replace(":postId", postId);
   },
 
   comment: function(postId, id) {
-    return this.api_url+"post/:postId/comments/:id".replace(":postId", postId).replace(":id", id);
+    return this.api_url+"/posts/:postId/comments/:id".replace(":postId", postId).replace(":id", id);
   }
 }
