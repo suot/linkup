@@ -3,7 +3,11 @@ export const DataUtil = {
     return( new FormData(form) );
   },
   
-  jsonUser: function() { 
-    return 1;  
+  jsonUser: function(hash) { 
+    const user = {
+      user: hash
+    };
+
+    return JSON.stringify(user);
   }
 }
