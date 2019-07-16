@@ -38,11 +38,11 @@ class Home extends Component{
     return(
       <div>
         <Row>
-          <Col sm="3">
+          <Col sm="3" style={{position:"fixed"}}>
             <UserInfo />
           </Col>
           
-          <Col sm="6">
+          <Col sm={{size: 6, offset: 3}} >
             <CreatePost />
             {this.displayPosts()}
           </Col>

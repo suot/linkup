@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { Card, CardBody, Button } from 'reactstrap';
+import { Card, CardBody, Button, Row } from 'reactstrap';
 
 import {registerCallback} from '../../store/actions/callbackActions'
 import {ShowComment, CreateComment} from '../packages/comment'
@@ -39,7 +39,7 @@ class ShowPost extends Component{
       items.push( <p>Comments not available </p>);
     else{
       for(const comment of this.state.post.comments){
-        items.push( <ShowComment comment={comment}/> );
+        items.push( <ShowComment comment={comment} post={this.state.post} /> );
       }
     }
 
@@ -52,7 +52,7 @@ class ShowPost extends Component{
         <CardBody>
           {this.state.post.text}
           <br/>
-          <img src={this.state.post.image} />
+          <img class="img-fluid mx-auto d-block" src={this.state.post.image} />
           
           <hr/>  
           <p>{this.state.post.total_comments} Comments</p> 
@@ -60,6 +60,7 @@ class ShowPost extends Component{
           <hr/>
           {this.displayComments()}
 
+          <hr/>
           <div>  
             <CreateComment post={this.state.post} />
           </div>

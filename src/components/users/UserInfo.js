@@ -9,8 +9,10 @@ class UserInfo extends Component{
 
   render(){
     return(
-      <div>
-        I am userInfo
+      <div class="sticky-top">
+        <hr/>
+        <img class="img-fluid mx-auto d-block" src="https://engineering.unl.edu/images/staff/Kayla_Person-small.jpg" />
+        <hr/>
       </div>
     );
   }

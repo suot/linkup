@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-
+import { Row } from 'reactstrap'
 
 class ShowComment extends Component{
   constructor(props){
@@ -10,7 +10,9 @@ class ShowComment extends Component{
   render(){
     return(
       <div>
-        {this.props.comment.text}
+        <img class="img-fluid" src={this.props.post.image} width="40px" height="40px" />
+        <p class="badge">{this.props.comment.text}</p>
+        <hr/>
       </div>
       );
   }
