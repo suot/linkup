@@ -3,6 +3,14 @@ import {config} from './env'
 export const urls = {
   api_url: config.url.API_URL,
   
+  signup: function() {
+    return this.api_url+"/users";
+  },
+
+  signin: function() {
+    return this.api_url+"/oauth/token";
+  },
+
   posts: function() {
     return this.api_url+"/posts";
   },

@@ -71,8 +71,8 @@ class DefaultLayout extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
-    profile: state.firebase.profile
+    auth: state.auth,
+    profile: state.user
   }
 };
 

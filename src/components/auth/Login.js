@@ -24,12 +24,12 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.login(this.state);
+    this.props.login(e.target);
   };
 
   render() {
     const { auth } = this.props;
-    if(auth.uid) return <Redirect to='/' />;
+    if(auth.token) return <Redirect to='/' />;
 
     return (
       <div className="app flex-row align-items-center">
@@ -46,7 +46,7 @@ class Login extends Component {
                           <i className="icon-user" />
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Email" autoComplete="email" id={"email"} onChange={this.updateInput} />
+                      <Input type="text" placeholder="Email" autoComplete="email" name="email" id={"email"} onChange={this.updateInput} />
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupAddon addonType="prepend">
@@ -54,7 +54,8 @@ class Login extends Component {
                           <i className="icon-lock" />
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Password" autoComplete="current-password" id={"password"} onChange={this.updateInput} />
+                      <Input type="password" placeholder="Password" autoComplete="current-password" name="password" id={"password"} onChange={this.updateInput} />
+                      <Input type="hidden" name="grant_type" value="password" />
                     </InputGroup>
                     <Row>
                       <Col xs="6">
@@ -86,7 +87,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
-    auth: state.firebase.auth,
+    auth: state.auth,
   }
 };
 

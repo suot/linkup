@@ -14,6 +14,8 @@ import { HttpService } from './services/HttpService'
 import { urls } from './urls'
 import { DataUtil } from './services/DataUtil'
 
+if (localStorage.getItem('user.token')) HttpService.setAuthHeader("Bearer", localStorage.getItem('user.token'));
+
 const store = createStore(rootReducer,
     compose(
         applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore, HttpService, urls, DataUtil })),

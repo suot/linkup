@@ -1,43 +1,45 @@
 
 export const signIn = (credentials) => {
-    return (dispatch, getState, {getFirebase}) => {
-        const firebase = getFirebase();
+  return (dispatch, getState, { HttpService, urls, DataUtil}) => {
+    HttpService.post( urls.signin(), DataUtil.formMulti(credentials)) 
+      .then( data => {
+        dispatch({type: "SET_USER", user: data.user});
+        dispatch({type: "SET_AUTH_TOKEN", token: data.user.access_token}); 
+        HttpService.setAuthHeader("Bearer", data.user.access_token);
+        })
 
-        firebase.auth().signInWithEmailAndPassword(
-            credentials.email,
-            credentials.password
-        ).then(() => {
-            dispatch({ type: 'LOGIN_SUCCESS' })
-        }).catch((err) => {
-            dispatch({ type: 'LOGIN_ERROR', err })
-        });
+      .catch( err => 
+        dispatch({ type: 'SIGNUP_ERROR', err: JSON.stringify(err)}) 
+        )
     }
-};
+  };
 
 
 export const signUp = (newUser) => {
-    return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, { HttpService, urls, DataUtil}) => {
+    const form =  DataUtil.formMulti(newUser)
 
-        const firebase = getFirebase();
-        const firestore = getFirestore();
+    HttpService.post( urls.signup(), form)
+      .then( data => {
+        const loginForm = new FormData();
+        
+        loginForm.append('email', data.email);
+        loginForm.append('password', form.get('user[password]'));
+        loginForm.append('grant_type', 'password');
 
-        firebase.auth().createUserWithEmailAndPassword(
-            newUser.email,
-            newUser.password
-        ).then((resp) => {
-            //create a user document in users collection
-            return firestore.collection('users').doc(resp.user.uid).set({
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
-                initials: newUser.firstName.slice(0, 1),
-            })
-        }).then(()=>{
-            dispatch({ type: 'SIGNUP_SUCCESS' })
-        }).catch(err=>{
-            dispatch({ type: 'SIGNUP_ERROR', err})
+        HttpService.post( urls.signin(), loginForm) 
+          .then( data => {
+            dispatch({type: "SET_USER", user: data.user});
+            dispatch({type: "SET_AUTH_TOKEN", token: data.user.access_token});
+            HttpService.setAuthHeader("Bearer", data.user.access_token);
+            });
         })
+
+      .catch( err => 
+        dispatch({ type: 'SIGNUP_ERROR', err: JSON.stringify(err.errors)}) 
+        )
     }
-};
+  };
 
 
 export const updateProfile = (newProfile) => {
@@ -61,12 +63,8 @@ export const updateProfile = (newProfile) => {
 
 
 export const signOut = () => {
-    return (dispatch, getState, {getFirebase}) => {
-        const firebase = getFirebase();
-        firebase.auth().signOut().then(() => {
-            dispatch({ type: 'LOGOUT_SUCCESS' })
-        }).catch((err) => {
-            dispatch({ type: 'LOGOUT_ERROR', err })
-        });
-    }
+  return (dispatch, getState, {}) => {
+    localStorage.clear();
+    window.location.reload();
+  }
 };

@@ -25,12 +25,12 @@ class Register extends Component {
 
   addUser = e => {
     e.preventDefault();
-    this.props.register(this.state);
+    this.props.register(e.target);
   };
 
   render() {
     const { authError, auth } = this.props;
-    if(auth.uid) return <Redirect to='/travel/add' />
+    if(auth.token) return <Redirect to='/' />
 
     return (
       <div className="app flex-row align-items-center">
@@ -45,7 +45,7 @@ class Register extends Component {
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>@</InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" placeholder="Email" autoComplete="email" id="email" onChange={this.updateInput} />
+                      <Input type="text" placeholder="Email" autoComplete="email" id="email" name="user[email]" onChange={this.updateInput} />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -53,7 +53,7 @@ class Register extends Component {
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="Password" autoComplete="password" id="password" onChange={this.updateInput} />
+                      <Input type="password" placeholder="Password" autoComplete="password" id="password" name="user[password]" onChange={this.updateInput} />
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <InputGroupAddon addonType="prepend">
@@ -61,8 +61,8 @@ class Register extends Component {
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input className="mr-1" type="text" placeholder="First Name" autoComplete="first name" id="firstName" name="firstName" onChange={this.updateInput} />
-                      <Input type="text" placeholder="Last Name" autoComplete="last name" id="lastName" name="lastName" onChange={this.updateInput} />
+                      <Input className="mr-1" type="text" placeholder="First Name" autoComplete="first name" id="firstName" name="user[firstName]" onChange={this.updateInput} />
+                      <Input type="text" placeholder="Last Name" autoComplete="last name" id="lastName" name="user[lastName]" onChange={this.updateInput} />
                     </InputGroup>
 
                     <Row>
@@ -97,7 +97,7 @@ const mapStateToProps = (state) => {
   return {
     authError: state.auth.authError,
     // status: state.auth.status,
-    auth: state.firebase.auth,
+    auth: state.auth,
   }
 }
 

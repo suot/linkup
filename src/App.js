@@ -27,7 +27,7 @@ const Register = Loadable({
 
 class App extends Component {
   render() {
-    if(this.props.auth.uid){
+    if(this.props.auth.token){
       return (
           <BrowserRouter>
             <Switch>
@@ -56,7 +56,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.auth
   }
 }
 

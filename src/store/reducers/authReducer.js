@@ -1,5 +1,6 @@
 const initState = {
     authError: null,
+    token: null
     //region: null
 };
 
@@ -13,10 +14,10 @@ const authReducer = (state = initState, action) => {
                 // status: 'SIGN_UP_SUCCESS'
             };
         case 'SIGNUP_ERROR':
-            console.log('Sign up error: ', action.err.message);
+            console.log('Sign up error: ', action.err);
             return {
                 ...state,
-                authError: action.err.message
+                authError: action.err
             };
         case 'LOGIN_SUCCESS':
             console.log('Login success');
@@ -53,8 +54,25 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 authError: 'Error occurred when updating profile'
             };
+        case "SET_AUTH_TOKEN":
+          console.log('Setting user token');
+          
+          localStorage.setItem("user.token", action.token);
+          return {
+            ...state,
+            token: action.token
+          };
+        
         default:
-            return state;
+            var token = localStorage.getItem("user.token");
+
+            if( state == undefined && token != null)
+              return initState; 
+
+            return {
+              ...state,
+              token: token
+            };
     }
 };
 
